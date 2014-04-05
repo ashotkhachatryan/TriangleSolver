@@ -1,6 +1,28 @@
 #include "triangle.h"
 #include "math.h"
 
+// Sets all properties
+void
+Triangle::SetProperties(void)
+{
+  SetPerimeter();
+  SetArea();
+  SetAngleA();
+  SetAngleB();
+  SetAngleC();
+  SetAltitudeA();
+  SetAltitudeB();
+  SetAltitudeC();
+  SetBisectorA();
+  SetBisectorB();
+  SetBisectorC();
+  SetMedianA();
+  SetMedianB();
+  SetMedianC();
+  SetOutscribedR();
+  SetInscribedR();
+}
+
 void
 Triangle::SetArea(void)
 {
@@ -47,6 +69,54 @@ Triangle::SetMedian(double pSide, double pSideX, double pSideY)
               pSide * pSide)) / 2;
 }
 
+void
+Triangle::SetOutscribedR(void)
+{
+  // (abc)/sqrt(a+b+c)(b+c-a)(c+a-b)(a+b-c)
+  m_outscribedR = (m_sideA * m_sideB * m_sideC) / 
+          sqrt(
+          (m_sideA + m_sideB + m_sideC) * 
+          (m_sideB + m_sideC - m_sideA) * 
+          (m_sideC + m_sideA - m_sideB) * 
+          (m_sideA + m_sideB - m_sideC));
+}
+
+double
+Triangle::GetSideByTwoSidesAngle(double pSideA, double pSideB, double pAngle)
+{
+  // The cosin formula. a^2+b^2-2abcos(alpha)
+  return sqrt((pSideA * pSideA) + (pSideB * pSideB) - 
+      (2 * pSideA * pSideB * cos((pAngle * PI) / 180)));
+}
+
+Triangle::Triangle()
+{
+}
+
+Triangle::Triangle(double pSideA, double pSideB, double pSideC)
+{
+  // TODO: Check side correctness.
+  m_sideA = pSideA;
+  m_sideB = pSideB;
+  m_sideC = pSideC;
+  SetProperties();
+}
+
+Triangle::Triangle(double pSideF, double pSideS, double pAngle, TrAngles pTrAngle)
+{
+  double lSideT = GetSideByTwoSidesAngle(pSideF, pSideS, pAngle);
+  if (pTrAngle == eANGLEA) {
+    Triangle(pSideF, lSideT, pSideS);
+  } else if (pTrAngle == eANGLEB) {
+    Triangle(pSideF, pSideS, lSideT);
+  } else if (pTrAngle == eANGLEC) {
+    Triangle(lSideT, pSideF, pSideS);
+  } else {
+    // TODO: Error Handling.
+  }
+}
+
+// Getter and Setter simple functions
 double
 Triangle::GetArea(void)
 {
@@ -117,7 +187,7 @@ Triangle::GetAltitudeA(void)
 void
 Triangle::SetAltitudeB(void)
 {
-  m_altitudeA = SetAltitude(m_sideB); 
+  m_altitudeB = SetAltitude(m_sideB); 
 }
 
 double
@@ -129,7 +199,7 @@ Triangle::GetAltitudeB(void)
 void
 Triangle::SetAltitudeC(void)
 {
-  m_altitudeA = SetAltitude(m_sideC);
+  m_altitudeC = SetAltitude(m_sideC);
 }
 
 double
@@ -153,7 +223,7 @@ Triangle::GetBisectorA(void)
 void
 Triangle::SetBisectorB(void)
 {
-  m_bisectorA = SetBisector(m_sideA, m_sideC, m_angleA);
+  m_bisectorB = SetBisector(m_sideA, m_sideC, m_angleA);
 }
 
 double
@@ -165,7 +235,7 @@ Triangle::GetBisectorB(void)
 void
 Triangle::SetBisectorC(void)
 {
-  m_bisectorA = SetBisector(m_sideA, m_sideB, m_angleB);
+  m_bisectorC = SetBisector(m_sideA, m_sideB, m_angleB);
 }
 
 double
@@ -189,7 +259,7 @@ Triangle::GetMedianA(void)
 void
 Triangle::SetMedianB(void)
 {
-  m_medianA = SetMedian(m_sideB, m_sideA, m_sideC);
+  m_medianB = SetMedian(m_sideB, m_sideA, m_sideC);
 }
 
 double
@@ -201,7 +271,7 @@ Triangle::GetMedianB(void)
 void
 Triangle::SetMedianC(void)
 {
-  m_medianA = SetMedian(m_sideC, m_sideB, m_sideA);
+  m_medianC = SetMedian(m_sideC, m_sideB, m_sideA);
 }
 
 double
@@ -214,18 +284,6 @@ void
 Triangle::SetInscribedR(void)
 {
   m_inscribedR = GetArea() / (GetPerimeter()/2);
-}
-
-void
-Triangle::SetOutscribedR(void)
-{
-  // (abc)/sqrt(a+b+c)(b+c-a)(c+a-b)(a+b-c)
-  m_outscribedR = (m_sideA * m_sideB * m_sideC) / 
-          sqrt(
-          (m_sideA + m_sideB + m_sideC) * 
-          (m_sideB + m_sideC - m_sideA) * 
-          (m_sideC + m_sideA - m_sideB) * 
-          (m_sideA + m_sideB - m_sideC));
 }
 
 double
@@ -241,41 +299,19 @@ Triangle::GetOutscribedR(void)
 }
 
 double
-Triangle::GetSideByTwoSidesAngle(double pSideA, double pSideB, double pAngle)
+Triangle::GetSideA(void)
 {
-  (void)pSideA;
-  (void)pSideB;
-  (void)pAngle;
-  return 0;
+  return m_sideA;
 }
 
-Triangle::Triangle()
+double
+Triangle::GetSideB(void)
 {
+  return m_sideB;
 }
 
-Triangle::Triangle(double pSideA, double pSideB, double pSideC)
+double
+Triangle::GetSideC(void)
 {
-  // TODO: Check side correctness.
-  m_sideA = pSideA;
-  m_sideB = pSideB;
-  m_sideC = pSideC;
-  SetPerimeter();
-  SetArea();
-  SetAngleA();
-  SetAngleB();
-  SetAngleC();
-}
-
-Triangle::Triangle(double pSideF, double pSideS, double pAngle, TrAngles pTrAngle)
-{
-  double lSideT = GetSideByTwoSidesAngle(pSideF, pSideS, pAngle);
-  if (pTrAngle == eANGLEA) {
-    Triangle(pSideF, lSideT, pSideS);
-  } else if (pTrAngle == eANGLEB) {
-    Triangle(pSideF, pSideS, lSideT);
-  } else if (pTrAngle == eANGLEC) {
-    Triangle(lSideT, pSideF, pSideS);
-  } else {
-    // TODO: Error Handling.
-  }
+  return m_sideC;
 }

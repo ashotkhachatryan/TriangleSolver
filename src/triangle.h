@@ -32,6 +32,7 @@ private:
   double m_inscribedR;
   double m_outscribedR;
 private:
+  void SetProperties(void);
   void SetArea();
   void SetPerimeter();
   double SetAltitude(double pSide);
@@ -54,6 +55,10 @@ private:
   void SetOutscribedR();
   double GetSideByTwoSidesAngle(double pSideA, double pSideB, double pAngle);
 public:
+  double GetSideA();
+  double GetSideB();
+  double GetSideC();
+
   double GetArea();
   double GetPerimeter();
 

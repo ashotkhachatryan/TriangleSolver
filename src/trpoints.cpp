@@ -1,11 +1,11 @@
 #include "triangle.h"
-#include "calcpoints.h"
+#include "trpoints.h"
 #include <iostream>
 #include <vector>
 #include <cmath>
 
 double
-CalcPoints::GetScale()
+TrPoints::GetScale()
 {
   double lScale = 0;
   double lS1 = (m_area.width - (m_area.rightMargin + m_area.leftMargin)) / m_width;
@@ -17,7 +17,7 @@ CalcPoints::GetScale()
 }
 
 void
-CalcPoints::ReCalculate()
+TrPoints::ReCalculate()
 {
   Triangle t( m_triangle.GetSideA()*GetScale(),
               m_triangle.GetSideB()*GetScale(),
@@ -28,25 +28,25 @@ CalcPoints::ReCalculate()
 }
 
 Point
-CalcPoints::GetPointA(void)
+TrPoints::GetPointA(void)
 {
   return m_pointA; 
 }
 
 Point
-CalcPoints::GetPointB(void)
+TrPoints::GetPointB(void)
 {
   return m_pointB; 
 }
 
 Point
-CalcPoints::GetPointC(void)
+TrPoints::GetPointC(void)
 {
   return m_pointC; 
 }
 
 void
-CalcPoints::SetPointA(void)
+TrPoints::SetPointA(void)
 {
   // Calculate point A
   m_pointA.X = 0;
@@ -54,7 +54,7 @@ CalcPoints::SetPointA(void)
 }
 
 void
-CalcPoints::SetPointB(void)
+TrPoints::SetPointB(void)
 {
   // Calculate point B
   m_pointB.X = 0;
@@ -62,7 +62,7 @@ CalcPoints::SetPointB(void)
 }
 
 void
-CalcPoints::SetPointC(void)
+TrPoints::SetPointC(void)
 {
   // Calculate point C
   double disC = 0;
@@ -79,7 +79,7 @@ CalcPoints::SetPointC(void)
 }
 
 void
-CalcPoints::SetPoints(void)
+TrPoints::SetPoints(void)
 {
   SetPointA();
   SetPointB();
@@ -93,7 +93,7 @@ CalcPoints::SetPoints(void)
 }
 
 void
-CalcPoints::FixPoints()
+TrPoints::FixPoints()
 {
   double minX = m_pointA.X;
   double minY = m_pointA.Y;
@@ -115,7 +115,7 @@ CalcPoints::FixPoints()
   }
 }
 
-CalcPoints::CalcPoints(Triangle tr, Area area)
+TrPoints::TrPoints(Triangle tr, Area area)
 {
   m_triangle = tr;
   m_area = area;

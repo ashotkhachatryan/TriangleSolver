@@ -1,5 +1,5 @@
-#ifndef CALCPOINTS_H
-#define CALCPOINTS_H
+#ifndef TRPOINTS_H
+#define TRPOINTS_H
 
 #include <vector>
 #include "area.h"
@@ -10,10 +10,10 @@ struct Point
   double Y;
 };
 
-class CalcPoints
+class TrPoints
 {
 public:
-  CalcPoints(Triangle tr, Area area);
+  TrPoints(Triangle tr, Area area);
 public:
   Point GetPointA();
   Point GetPointB();

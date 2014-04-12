@@ -30,16 +30,12 @@
 #include "trpoints.h"
 #include "area.h"
 
-double a;
-double b;
-double c;
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    a = 10; b = 10; c = 10;
+    m_triangle = new Triangle(10,10,10);
 }
 
 void
@@ -57,8 +53,8 @@ MainWindow::paintEvent(QPaintEvent* event)
   area.Y = 50;
 
   QPainter painter(this);
-  Triangle tr(a, b, c);
-  TrPoints calc(tr, area); 
+//  Triangle tr(a, b, c);
+  TrPoints calc(m_triangle, area); 
   
   painter.drawRect(0 + area.X, 0 + area.Y, area.width, area.height);
   painter.drawLine(calc.GetPointA().X, calc.GetPointA().Y, calc.GetPointB().X, calc.GetPointB().Y);
@@ -72,9 +68,25 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_pushButton1_clicked()
 {
-  a = ui->lineEdit1->text().toDouble();
-  b = ui->lineEdit2->text().toDouble();
-  c = ui->lineEdit3->text().toDouble();
+  double a = ui->lineEdit1->text().toDouble();
+  double b = ui->lineEdit2->text().toDouble();
+  double c = ui->lineEdit3->text().toDouble();
+  m_triangle = new Triangle(a,b,c);
+}
+
+void MainWindow::on_pushButton2_clicked()
+{
+  double a = ui->lineEdit4->text().toDouble();
+  double b = ui->lineEdit5->text().toDouble();
+  double angle = ui->lineEdit6->text().toDouble();
+
+  if (ui->comboBox->currentIndex() == 0) {
+    m_triangle = new Triangle(a, b, angle, Triangle::eANGLEA);
+  } else if (ui->comboBox->currentIndex() == 1) {
+    m_triangle = new Triangle(a, b, angle, Triangle::eANGLEB);
+  } else if (ui->comboBox->currentIndex() == 3) {
+    m_triangle = new Triangle(a, b, angle, Triangle::eANGLEC);
+  }
 }

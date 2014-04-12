@@ -21,7 +21,7 @@
 **********************************************************************
   Synopsis - Triangle implementation.
 **********************************************************************/
-
+#include <iostream>
 #include "triangle.h"
 #include "math.h"
 
@@ -113,32 +113,6 @@ Triangle::GetSideByTwoSidesAngle(double pSideA, double pSideB, double pAngle)
       (2 * pSideA * pSideB * cos((pAngle * PI) / 180)));
 }
 
-Triangle::Triangle()
-{
-}
-
-Triangle::Triangle(double pSideA, double pSideB, double pSideC)
-{
-  // TODO: Check side correctness.
-  m_sideA = pSideA;
-  m_sideB = pSideB;
-  m_sideC = pSideC;
-  SetProperties();
-}
-
-Triangle::Triangle(double pSideF, double pSideS, double pAngle, TrAngles pTrAngle)
-{
-  double lSideT = GetSideByTwoSidesAngle(pSideF, pSideS, pAngle);
-  if (pTrAngle == eANGLEA) {
-    Triangle(pSideF, lSideT, pSideS);
-  } else if (pTrAngle == eANGLEB) {
-    Triangle(pSideF, pSideS, lSideT);
-  } else if (pTrAngle == eANGLEC) {
-    Triangle(lSideT, pSideF, pSideS);
-  } else {
-    // TODO: Error Handling.
-  }
-}
 
 // Getter and Setter simple functions
 double
@@ -339,3 +313,38 @@ Triangle::GetSideC(void)
 {
   return m_sideC;
 }
+
+Triangle::Triangle()
+{
+}
+
+void
+Triangle::Init(double pSideA, double pSideB, double pSideC)
+{
+  m_sideA = pSideA;
+  m_sideB = pSideB;
+  m_sideC = pSideC;
+  SetProperties();
+}
+
+Triangle::Triangle(double pSideA, double pSideB, double pSideC)
+{
+  // TODO: Check side correctness.
+  Init(pSideA, pSideB, pSideC);
+}
+
+Triangle::Triangle(double pSideF, double pSideS, double pAngle, TrAngles pTrAngle)
+{
+  double lSideT = GetSideByTwoSidesAngle(pSideF, pSideS, pAngle);
+  std::cout << pSideF << " " << pSideS << " " << lSideT << std::endl;
+  if (pTrAngle == eANGLEA) {
+    Init(pSideF, lSideT, pSideS);
+  } else if (pTrAngle == eANGLEB) {
+    Init(pSideF, pSideS, lSideT);
+  } else if (pTrAngle == eANGLEC) {
+    Init(lSideT, pSideF, pSideS);
+  } else {
+    // TODO: Error Handling.
+  }
+}
+

@@ -13,7 +13,7 @@ struct Point
 class TrPoints
 {
 public:
-  TrPoints(Triangle tr, Area area);
+  TrPoints(Triangle* tr, Area area);
 public:
   Point GetPointA();
   Point GetPointB();
@@ -32,7 +32,7 @@ private:
   Point m_pointC;
   double m_width;
   double m_height;
-  Triangle m_triangle;
+  Triangle* m_triangle;
   std::vector<Point*> m_points;
   Area m_area;
 };

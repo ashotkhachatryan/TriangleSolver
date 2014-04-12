@@ -19,10 +19,10 @@ TrPoints::GetScale()
 void
 TrPoints::ReCalculate()
 {
-  Triangle t( m_triangle.GetSideA()*GetScale(),
-              m_triangle.GetSideB()*GetScale(),
-              m_triangle.GetSideC()*GetScale());
-  m_triangle = t;
+  Triangle t( m_triangle->GetSideA()*GetScale(),
+              m_triangle->GetSideB()*GetScale(),
+              m_triangle->GetSideC()*GetScale());
+  m_triangle = &t;
   SetPoints();
   FixPoints(); 
 }
@@ -58,7 +58,7 @@ TrPoints::SetPointB(void)
 {
   // Calculate point B
   m_pointB.X = 0;
-  m_pointB.Y = m_pointA.Y - m_triangle.GetSideA();
+  m_pointB.Y = m_pointA.Y - m_triangle->GetSideA();
 }
 
 void
@@ -67,14 +67,14 @@ TrPoints::SetPointC(void)
   // Calculate point C
   double disC = 0;
 
-  if (m_triangle.GetAngleA() >= 90)
-    disC = sqrt((m_triangle.GetSideC() * m_triangle.GetSideC()) - (m_triangle.GetAltitudeA() * m_triangle.GetAltitudeA()));
-  else if (m_triangle.GetAngleB() >= 90)
-    disC = 0 - (m_triangle.GetSideA() + sqrt((m_triangle.GetSideB() * m_triangle.GetSideB()) - (m_triangle.GetAltitudeA() * m_triangle.GetAltitudeA())));
+  if (m_triangle->GetAngleA() >= 90)
+    disC = sqrt((m_triangle->GetSideC() * m_triangle->GetSideC()) - (m_triangle->GetAltitudeA() * m_triangle->GetAltitudeA()));
+  else if (m_triangle->GetAngleB() >= 90)
+    disC = 0 - (m_triangle->GetSideA() + sqrt((m_triangle->GetSideB() * m_triangle->GetSideB()) - (m_triangle->GetAltitudeA() * m_triangle->GetAltitudeA())));
   else
-    disC = 0 - (sqrt((m_triangle.GetSideC() * m_triangle.GetSideC()) - (m_triangle.GetAltitudeA() * m_triangle.GetAltitudeA())));
+    disC = 0 - (sqrt((m_triangle->GetSideC() * m_triangle->GetSideC()) - (m_triangle->GetAltitudeA() * m_triangle->GetAltitudeA())));
 
-  m_pointC.X = m_pointA.X + m_triangle.GetAltitudeA();
+  m_pointC.X = m_pointA.X + m_triangle->GetAltitudeA();
   m_pointC.Y = m_pointA.Y + disC;
 }
 
@@ -115,7 +115,7 @@ TrPoints::FixPoints()
   }
 }
 
-TrPoints::TrPoints(Triangle tr, Area area)
+TrPoints::TrPoints(Triangle* tr, Area area)
 {
   m_triangle = tr;
   m_area = area;

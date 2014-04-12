@@ -1,7 +1,10 @@
 #include <iostream>
 #include "triangle.h"
 
-int main()
+#include <QtGui/QApplication>
+#include "mainwindow.h"
+
+int main(int argc, char *argv[])
 {
   Triangle tr(15,29,20);
   std::cout << tr.GetSideA() << std::endl;
@@ -23,5 +26,10 @@ int main()
   std::cout << tr.GetAngleA() << std::endl;
   std::cout << tr.GetAngleB() << std::endl;
   std::cout << tr.GetAngleC() << std::endl;
+  QApplication a(argc, argv);
+  MainWindow w;
+  w.show();
+
+  return a.exec();
   return 0;
 }

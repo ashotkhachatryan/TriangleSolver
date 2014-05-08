@@ -86,7 +86,7 @@ void MainWindow::on_pushButton2_clicked()
     m_triangle = new Triangle(a, b, angle, Triangle::eANGLEA);
   } else if (ui->comboBox->currentIndex() == 1) {
     m_triangle = new Triangle(a, b, angle, Triangle::eANGLEB);
-  } else if (ui->comboBox->currentIndex() == 3) {
+  } else if (ui->comboBox->currentIndex() == 2) {
     m_triangle = new Triangle(a, b, angle, Triangle::eANGLEC);
   }
 }

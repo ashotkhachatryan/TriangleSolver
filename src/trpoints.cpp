@@ -19,10 +19,12 @@ TrPoints::GetScale()
 void
 TrPoints::ReCalculate()
 {
-  Triangle t( m_triangle->GetSideA()*GetScale(),
-              m_triangle->GetSideB()*GetScale(),
-              m_triangle->GetSideC()*GetScale());
-  m_triangle = &t;
+  double lsideA = m_triangle->GetSideA() * GetScale();
+  double lsideB = m_triangle->GetSideB() * GetScale();
+  double lsideC = m_triangle->GetSideC() * GetScale();
+
+  m_triangle = new Triangle(lsideA, lsideB, lsideC);
+
   SetPoints();
   FixPoints(); 
 }
@@ -67,12 +69,15 @@ TrPoints::SetPointC(void)
   // Calculate point C
   double disC = 0;
 
-  if (m_triangle->GetAngleA() >= 90)
+  if (m_triangle->GetAngleA() >= 89) {
     disC = sqrt((m_triangle->GetSideC() * m_triangle->GetSideC()) - (m_triangle->GetAltitudeA() * m_triangle->GetAltitudeA()));
-  else if (m_triangle->GetAngleB() >= 90)
+  }
+  else if (m_triangle->GetAngleB() >= 90) {
     disC = 0 - (m_triangle->GetSideA() + sqrt((m_triangle->GetSideB() * m_triangle->GetSideB()) - (m_triangle->GetAltitudeA() * m_triangle->GetAltitudeA())));
-  else
+  }
+  else {
     disC = 0 - (sqrt((m_triangle->GetSideC() * m_triangle->GetSideC()) - (m_triangle->GetAltitudeA() * m_triangle->GetAltitudeA())));
+  }
 
   m_pointC.X = m_pointA.X + m_triangle->GetAltitudeA();
   m_pointC.Y = m_pointA.Y + disC;
@@ -121,5 +126,11 @@ TrPoints::TrPoints(Triangle* tr, Area area)
   m_area = area;
   SetPoints();
   FixPoints();
+
   ReCalculate();
+}
+
+TrPoints::~TrPoints()
+{
+  delete m_triangle;
 }

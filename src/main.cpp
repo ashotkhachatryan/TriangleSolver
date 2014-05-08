@@ -24,36 +24,30 @@
 
 #include <iostream>
 #include "triangle.h"
-
+#include "trpoints.h"
+#include "area.h"
 #include <QtGui/QApplication>
 #include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {
-  Triangle tr(15,29,20);
-  std::cout << tr.GetSideA() << std::endl;
-  std::cout << tr.GetSideB() << std::endl;
-  std::cout << tr.GetSideC() << std::endl;
-  std::cout << tr.GetAltitudeA() << std::endl;
-  std::cout << tr.GetAltitudeB() << std::endl;
-  std::cout << tr.GetAltitudeC() << std::endl;
-  std::cout << tr.GetBisectorA() << std::endl;
-  std::cout << tr.GetBisectorB() << std::endl;
-  std::cout << tr.GetBisectorC() << std::endl;
-  std::cout << tr.GetMedianA() << std::endl;
-  std::cout << tr.GetMedianB() << std::endl;
-  std::cout << tr.GetMedianC() << std::endl;
-  std::cout << tr.GetInscribedR() << std::endl;
-  std::cout << tr.GetOutscribedR() << std::endl; 
-  std::cout << tr.GetArea() << std::endl;
-  std::cout << tr.GetPerimeter() << std::endl;
-  std::cout << tr.GetAngleA() << std::endl;
-  std::cout << tr.GetAngleB() << std::endl;
-  std::cout << tr.GetAngleC() << std::endl;
+  Area area;
+  area.width = 200;
+  area.height = 200;
+  area.topMargin = 20;
+  area.bottomMargin = 20;
+  area.leftMargin = 20;
+  area.rightMargin = 20;
+  area.X = 10;
+  area.Y = 50;
+
+  Triangle* tr = new Triangle(15,29,20);
+  //Triangle tr(a, b, c);
+  TrPoints calc(tr, area); 
+
   QApplication a(argc, argv);
   MainWindow w;
   w.show();
 
   return a.exec();
-  return 0;
 }

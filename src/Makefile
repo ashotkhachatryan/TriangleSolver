@@ -8,8 +8,8 @@
 
 ####### Compiler, tools and options
 
-CC            = gcc
-CXX           = g++
+CC            = gcc -g
+CXX           = g++ -g
 DEFINES       = -DQT_WEBKIT -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED
 CFLAGS        = -pipe -O2 -Wall -W -D_REENTRANT $(DEFINES)
 CXXFLAGS      = -pipe -O2 -Wall -W -D_REENTRANT $(DEFINES)

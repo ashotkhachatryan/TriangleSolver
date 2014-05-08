@@ -29,7 +29,7 @@
 void
 Triangle::SetProperties(void)
 {
-  SetPerimeter();
+  this->SetPerimeter();
   SetArea();
   SetAngleA();
   SetAngleB();
@@ -336,7 +336,6 @@ Triangle::Triangle(double pSideA, double pSideB, double pSideC)
 Triangle::Triangle(double pSideF, double pSideS, double pAngle, TrAngles pTrAngle)
 {
   double lSideT = GetSideByTwoSidesAngle(pSideF, pSideS, pAngle);
-  std::cout << pSideF << " " << pSideS << " " << lSideT << std::endl;
   if (pTrAngle == eANGLEA) {
     Init(pSideF, lSideT, pSideS);
   } else if (pTrAngle == eANGLEB) {

@@ -14,6 +14,7 @@ class TrPoints
 {
 public:
   TrPoints(Triangle* tr, Area area);
+  ~TrPoints();
 public:
   Point GetPointA();
   Point GetPointB();

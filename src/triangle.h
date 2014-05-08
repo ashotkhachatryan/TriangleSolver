@@ -78,8 +78,8 @@ private:
   void SetInscribedR();
   void SetOutscribedR();
   double GetSideByTwoSidesAngle(double pSideA, double pSideB, double pAngle);
-  void Init(double pSideA, double pSideB, double pSideC);
 public:
+  void Init(double pSideA, double pSideB, double pSideC);
   double GetSideA();
   double GetSideB();
   double GetSideC();

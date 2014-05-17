@@ -1,3 +1,4 @@
+
 /********************************************************************
 
    Copyright (C) 2014 Ashot Khachatryan <ashkhachatryana@gmail.com>
@@ -19,43 +20,68 @@
    02110-1301, USA.
 
 **********************************************************************
-  Synopsis - QT GUI header file.
+  Synopsis - Triangle side implementation.
 **********************************************************************/
+#include <iostream>
+#include <side.h>
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+QColor* Side::gDefaultColor = new QColor(Qt::black);
 
-#include "triangle.h"
-#include "area.h"
-#include "trpoints.h"
-#include <QMainWindow>
-
-namespace Ui {
-class MainWindow;
+Side::Side()
+{
+  m_color = new QColor(Qt::black);
 }
 
-class MainWindow : public QMainWindow
+Side::Side(double pLength)
 {
-    Q_OBJECT
-private:
-  Triangle* m_triangle;    
-  TrPoints* m_calc; 
-  Area m_area;
-  QPainter *m_painter;
-  QColor *m_color;
-  QPen *m_pen;
-public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-protected:
-    void paintEvent(QPaintEvent *);
-    bool eventFilter(QObject *obj, QEvent *event);
-public slots:
-  void handleSelectionChanged(int index);    
-private slots:
-    void on_pushButton1_clicked();
-private:
-    Ui::MainWindow *ui;
-};
+  m_color = new QColor(Qt::black);
+  m_length = pLength;
+}
 
-#endif // MAINWINDOW_H
+Side::~Side()
+{
+  //delete m_color;
+}
+
+double
+Side::GetLength()
+{
+  return m_length;
+}
+
+void
+Side::SetLength(double pLength)
+{
+  m_length = pLength;
+}
+
+void
+Side::SetColor(QColor* pColor)
+{
+  m_color = pColor;
+}
+
+QColor*
+Side::GetColor()
+{
+  return m_color;
+}
+
+void
+Side::SetStartPoint(Point pStartPoint)
+{
+  m_startPoint = pStartPoint;
+}
+
+void
+Side::SetEndPoint(Point pEndPoint)
+{
+  m_endPoint = pEndPoint;
+}
+
+void
+Side::Draw(QPainter *pPainter)
+{
+  pPainter->setPen(*m_color);
+  pPainter->drawLine(m_startPoint.X, m_startPoint.Y, m_endPoint.X, m_endPoint.Y);
+}

@@ -19,43 +19,31 @@
    02110-1301, USA.
 
 **********************************************************************
-  Synopsis - QT GUI header file.
+  Synopsis - Triangle side implementation.
 **********************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#include "qpainter.h"
+#include "point.h"
 
-#include "triangle.h"
-#include "area.h"
-#include "trpoints.h"
-#include <QMainWindow>
-
-namespace Ui {
-class MainWindow;
-}
-
-class MainWindow : public QMainWindow
+class Side
 {
-    Q_OBJECT
-private:
-  Triangle* m_triangle;    
-  TrPoints* m_calc; 
-  Area m_area;
-  QPainter *m_painter;
-  QColor *m_color;
-  QPen *m_pen;
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-protected:
-    void paintEvent(QPaintEvent *);
-    bool eventFilter(QObject *obj, QEvent *event);
-public slots:
-  void handleSelectionChanged(int index);    
-private slots:
-    void on_pushButton1_clicked();
+  Side();
+  Side(double pLength);
+  ~Side();
 private:
-    Ui::MainWindow *ui;
+  double m_length;
+  QColor* m_color;  
+  Point m_startPoint;
+  Point m_endPoint;
+public:
+  double GetLength();
+  void SetLength(double pLength);
+  void SetColor(QColor* pColor);
+  QColor* GetColor();
+  void SetStartPoint(Point pStartPoint);
+  void SetEndPoint(Point pEndPoint);
+public:
+  void Draw(QPainter *pPainter);
+  static QColor* gDefaultColor;
 };
-
-#endif // MAINWINDOW_H

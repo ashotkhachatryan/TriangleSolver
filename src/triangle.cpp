@@ -52,65 +52,65 @@ Triangle::SetArea(void)
 {
   // The Heron formula s=sqrt(p(p-a)(p-b)(p-c))
   m_area = sqrt((GetPerimeter()/2) *
-                ((GetPerimeter()/2) - m_sideA) *
-                ((GetPerimeter()/2) - m_sideB) *
-                ((GetPerimeter()/2) - m_sideC));
+                ((GetPerimeter()/2) - m_sideA.GetLength()) *
+                ((GetPerimeter()/2) - m_sideB.GetLength()) *
+                ((GetPerimeter()/2) - m_sideC.GetLength()));
 }
 
 double
-Triangle::SetAngle(double pSideX, double pSideY, double pSideZ)
+Triangle::SetAngle(Side pSideX, Side pSideY, Side pSideZ)
 {
   // asin(2S/ab)
-  double lAngle = (180 * asin((2 * m_area) / (pSideX * pSideY)))/PI;
-  if ((pSideZ * pSideZ) > ((pSideX * pSideX) + (pSideY * pSideY)))
+  double lAngle = (180 * asin((2 * m_area) / (pSideX.GetLength() * pSideY.GetLength())))/PI;
+  if ((pSideZ.GetLength() * pSideZ.GetLength()) > ((pSideX.GetLength() * pSideX.GetLength()) + (pSideY.GetLength() * pSideY.GetLength())))
     return lAngle + ((90-lAngle)*2);
   else 
     return lAngle;
 }
 
 double
-Triangle::SetAltitude(double pSide)
+Triangle::SetAltitude(Side pSide)
 {
   // 2*S/a;
-  return (2 * GetArea())/pSide;
+  return (2 * GetArea()) / pSide.GetLength();
 }
 
 double
-Triangle::SetBisector(double pSideX, double pSideY, double pAngle)
+Triangle::SetBisector(Side pSideX, Side pSideY, Side pAngle)
 {
   // 2*b*c*cos(C/2)/(b+c)
-  return  2 * pSideX  * pSideY * 
-          cos(((PI * (pAngle / 2)) / 180)) / 
-          (pSideX + pSideY);
+  return  2 * pSideX.GetLength()  * pSideY.GetLength() * 
+          cos(((PI * (pAngle.GetLength() / 2)) / 180)) / 
+          (pSideX.GetLength() + pSideY.GetLength());
 }
 
 double
-Triangle::SetMedian(double pSide, double pSideX, double pSideY)
+Triangle::SetMedian(Side pSide, Side pSideX, Side pSideY)
 {
   // sqrt(2b^2+2c^2-a^2)/2;
-  return (sqrt(2 * pSideX * pSideX + 
-              2 * pSideY * pSideY - 
-              pSide * pSide)) / 2;
+  return (sqrt(2 * pSideX.GetLength() * pSideX.GetLength() + 
+              2 * pSideY.GetLength() * pSideY.GetLength() - 
+              pSide.GetLength() * pSide.GetLength())) / 2;
 }
 
 void
 Triangle::SetOutscribedR(void)
 {
   // (abc)/sqrt(a+b+c)(b+c-a)(c+a-b)(a+b-c)
-  m_outscribedR = (m_sideA * m_sideB * m_sideC) / 
+  m_outscribedR = (m_sideA.GetLength() * m_sideB.GetLength() * m_sideC.GetLength()) / 
           sqrt(
-          (m_sideA + m_sideB + m_sideC) * 
-          (m_sideB + m_sideC - m_sideA) * 
-          (m_sideC + m_sideA - m_sideB) * 
-          (m_sideA + m_sideB - m_sideC));
+          (m_sideA.GetLength() + m_sideB.GetLength() + m_sideC.GetLength()) * 
+          (m_sideB.GetLength() + m_sideC.GetLength() - m_sideA.GetLength()) * 
+          (m_sideC.GetLength() + m_sideA.GetLength() - m_sideB.GetLength()) * 
+          (m_sideA.GetLength() + m_sideB.GetLength() - m_sideC.GetLength()));
 }
 
 double
-Triangle::GetSideByTwoSidesAngle(double pSideA, double pSideB, double pAngle)
+Triangle::GetSideByTwoSidesAngle(Side pSideA, Side pSideB, double pAngle)
 {
   // The cosin formula. a^2+b^2-2abcos(alpha)
-  return sqrt((pSideA * pSideA) + (pSideB * pSideB) - 
-      (2 * pSideA * pSideB * cos((pAngle * PI) / 180)));
+  return sqrt((pSideA.GetLength() * pSideA.GetLength()) + (pSideB.GetLength() * pSideB.GetLength()) - 
+      (2 * pSideA.GetLength() * pSideB.GetLength() * cos((pAngle * PI) / 180)));
 }
 
 
@@ -160,7 +160,7 @@ Triangle::GetAngleC(void)
 void
 Triangle::SetPerimeter(void)
 {
-  m_perimeter = m_sideA + m_sideB + m_sideC;
+  m_perimeter = m_sideA.GetLength() + m_sideB.GetLength() + m_sideC.GetLength();
 }
 
 double
@@ -296,23 +296,43 @@ Triangle::GetOutscribedR(void)
   return m_outscribedR;
 }
 
-double
+Side*
 Triangle::GetSideA(void)
 {
-  return m_sideA;
+  return &m_sideA;
 }
 
-double
+void
+Triangle::SetSideA(double pSideA)
+{
+  m_sideA.SetLength(pSideA);
+}
+
+Side*
 Triangle::GetSideB(void)
 {
-  return m_sideB;
+  return &m_sideB;
 }
 
-double
+void
+Triangle::SetSideB(double pSideB)
+{
+  m_sideB.SetLength(pSideB);
+}
+
+
+Side*
 Triangle::GetSideC(void)
 {
-  return m_sideC;
+  return &m_sideC;
 }
+
+void
+Triangle::SetSideC(double pSideC)
+{
+  m_sideC.SetLength(pSideC);
+}
+
 
 Triangle::Triangle()
 {
@@ -321,9 +341,9 @@ Triangle::Triangle()
 void
 Triangle::Init(double pSideA, double pSideB, double pSideC)
 {
-  m_sideA = pSideA;
-  m_sideB = pSideB;
-  m_sideC = pSideC;
+  m_sideA.SetLength(pSideA);
+  m_sideB.SetLength(pSideB);
+  m_sideC.SetLength(pSideC);
   SetProperties();
 }
 

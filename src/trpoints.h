@@ -3,12 +3,8 @@
 
 #include <vector>
 #include "area.h"
-
-struct Point
-{
-  double X;
-  double Y;
-};
+#include "qpainter.h"
+#include "point.h"
 
 class TrPoints
 {
@@ -19,6 +15,7 @@ public:
   Point GetPointA();
   Point GetPointB();
   Point GetPointC();
+  void Draw(QPainter *pPainter);
 private:
   void SetPointA();
   void SetPointB();

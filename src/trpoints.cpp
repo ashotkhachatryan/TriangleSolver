@@ -19,11 +19,14 @@ TrPoints::GetScale()
 void
 TrPoints::ReCalculate()
 {
-  double lsideA = m_triangle->GetSideA() * GetScale();
-  double lsideB = m_triangle->GetSideB() * GetScale();
-  double lsideC = m_triangle->GetSideC() * GetScale();
+  double lsideA = m_triangle->GetSideA()->GetLength() * GetScale();
+  double lsideB = m_triangle->GetSideB()->GetLength() * GetScale();
+  double lsideC = m_triangle->GetSideC()->GetLength() * GetScale();
 
-  m_triangle = new Triangle(lsideA, lsideB, lsideC);
+  m_triangle->SetSideA(lsideA);
+  m_triangle->SetSideB(lsideB);
+  m_triangle->SetSideC(lsideC);
+  m_triangle->SetProperties();
 
   SetPoints();
   FixPoints(); 
@@ -60,7 +63,7 @@ TrPoints::SetPointB(void)
 {
   // Calculate point B
   m_pointB.X = 0;
-  m_pointB.Y = m_pointA.Y - m_triangle->GetSideA();
+  m_pointB.Y = m_pointA.Y - m_triangle->GetSideA()->GetLength();
 }
 
 void
@@ -70,13 +73,13 @@ TrPoints::SetPointC(void)
   double disC = 0;
 
   if (m_triangle->GetAngleA() >= 89) {
-    disC = sqrt((m_triangle->GetSideC() * m_triangle->GetSideC()) - (m_triangle->GetAltitudeA() * m_triangle->GetAltitudeA()));
+    disC = sqrt((m_triangle->GetSideC()->GetLength() * m_triangle->GetSideC()->GetLength()) - (m_triangle->GetAltitudeA() * m_triangle->GetAltitudeA()));
   }
   else if (m_triangle->GetAngleB() >= 90) {
-    disC = 0 - (m_triangle->GetSideA() + sqrt((m_triangle->GetSideB() * m_triangle->GetSideB()) - (m_triangle->GetAltitudeA() * m_triangle->GetAltitudeA())));
+    disC = 0 - (m_triangle->GetSideA()->GetLength() + sqrt((m_triangle->GetSideB()->GetLength() * m_triangle->GetSideB()->GetLength()) - (m_triangle->GetAltitudeA() * m_triangle->GetAltitudeA())));
   }
   else {
-    disC = 0 - (sqrt((m_triangle->GetSideC() * m_triangle->GetSideC()) - (m_triangle->GetAltitudeA() * m_triangle->GetAltitudeA())));
+    disC = 0 - (sqrt((m_triangle->GetSideC()->GetLength() * m_triangle->GetSideC()->GetLength()) - (m_triangle->GetAltitudeA() * m_triangle->GetAltitudeA())));
   }
 
   m_pointC.X = m_pointA.X + m_triangle->GetAltitudeA();
@@ -120,14 +123,28 @@ TrPoints::FixPoints()
   }
 }
 
+void 
+TrPoints::Draw(QPainter *pPainter)
+{
+  pPainter->drawRect(0 + m_area.X, 0 + m_area.Y, m_area.width, m_area.height);
+  m_triangle->GetSideA()->Draw(pPainter);
+  m_triangle->GetSideB()->Draw(pPainter);
+  m_triangle->GetSideC()->Draw(pPainter);
+}
+
 TrPoints::TrPoints(Triangle* tr, Area area)
 {
   m_triangle = tr;
   m_area = area;
   SetPoints();
   FixPoints();
-
   ReCalculate();
+  m_triangle->GetSideA()->SetStartPoint(this->GetPointA());
+  m_triangle->GetSideA()->SetEndPoint(this->GetPointB());
+  m_triangle->GetSideB()->SetStartPoint(this->GetPointB());
+  m_triangle->GetSideB()->SetEndPoint(this->GetPointC());
+  m_triangle->GetSideC()->SetStartPoint(this->GetPointC());
+  m_triangle->GetSideC()->SetEndPoint(this->GetPointA());
 }
 
 TrPoints::~TrPoints()

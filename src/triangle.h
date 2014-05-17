@@ -25,6 +25,7 @@
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 
+#include <side.h>
 #define PI 3.1415926535897
 
 class Triangle
@@ -36,9 +37,9 @@ public:
   Triangle(double pSideA, double pSideB, double pSideC);
   Triangle(double pSideF, double pSideS, double pAngle, TrAngles pTrAngle);
 private:
-  double m_sideA;
-  double m_sideB;
-  double m_sideC;
+  Side m_sideA;
+  Side m_sideB;
+  Side m_sideC;
   double m_angleA;
   double m_angleB;
   double m_angleC;
@@ -56,33 +57,37 @@ private:
   double m_inscribedR;
   double m_outscribedR;
 private:
-  void SetProperties(void);
   void SetArea();
   void SetPerimeter();
-  double SetAltitude(double pSide);
+  double SetAltitude(Side pSide);
   void SetAltitudeA();
   void SetAltitudeB();
   void SetAltitudeC();
-  double SetBisector(double pSideX, double pSideY, double pAngle);
+  double SetBisector(Side pSideX, Side pSideY, Side pAngle);
   void SetBisectorA();
   void SetBisectorB();
   void SetBisectorC();
-  double SetMedian(double pSide, double pSideX, double pSideY);
+  double SetMedian(Side pSide, Side pSideX, Side pSideY);
   void SetMedianA();
   void SetMedianB();
   void SetMedianC(void);
-  double SetAngle(double pSideX, double pSideY, double pSideZ);
+  double SetAngle(Side pSideX, Side pSideY, Side pSideZ);
   void SetAngleA();
   void SetAngleB();
   void SetAngleC();
   void SetInscribedR();
   void SetOutscribedR();
-  double GetSideByTwoSidesAngle(double pSideA, double pSideB, double pAngle);
+  double GetSideByTwoSidesAngle(Side pSideA, Side pSideB, double pAngle);
 public:
   void Init(double pSideA, double pSideB, double pSideC);
-  double GetSideA();
-  double GetSideB();
-  double GetSideC();
+  Side* GetSideA();
+  Side* GetSideB();
+  Side* GetSideC();
+
+  void SetSideA(double pSideA);
+  void SetSideB(double pSideB);
+  void SetSideC(double pSideC);
+
 
   double GetArea();
   double GetPerimeter();
@@ -105,6 +110,7 @@ public:
 
   double GetInscribedR();
   double GetOutscribedR();
+  void SetProperties(void);
 };
 
 #endif

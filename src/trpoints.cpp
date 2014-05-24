@@ -139,12 +139,28 @@ TrPoints::TrPoints(Triangle* tr, Area area)
   SetPoints();
   FixPoints();
   ReCalculate();
-  m_triangle->GetSideA()->SetStartPoint(this->GetPointA());
-  m_triangle->GetSideA()->SetEndPoint(this->GetPointB());
-  m_triangle->GetSideB()->SetStartPoint(this->GetPointB());
-  m_triangle->GetSideB()->SetEndPoint(this->GetPointC());
-  m_triangle->GetSideC()->SetStartPoint(this->GetPointC());
-  m_triangle->GetSideC()->SetEndPoint(this->GetPointA());
+  Apex* apexA = new Apex(this->GetPointA(), "A");
+  Apex* apexB = new Apex(this->GetPointB(), "B");
+  Apex* apexC = new Apex(this->GetPointC(), "C");
+
+  m_triangle->GetSideA()->SetMiddleLetter("a");
+  m_triangle->GetSideB()->SetMiddleLetter("b");
+  m_triangle->GetSideC()->SetMiddleLetter("c");
+
+  m_triangle->GetSideA()->SetStartApex(apexA);
+  m_triangle->GetSideA()->SetEndApex(apexB);
+  m_triangle->GetSideB()->SetStartApex(apexB);
+  m_triangle->GetSideB()->SetEndApex(apexC);
+  m_triangle->GetSideC()->SetStartApex(apexC);
+  m_triangle->GetSideC()->SetEndApex(apexA);
+  
+  m_triangle->GetSideA()->FindApexLetterLocation();
+  m_triangle->GetSideB()->FindApexLetterLocation();
+  m_triangle->GetSideC()->FindApexLetterLocation();
+
+  m_triangle->GetSideA()->FindMiddleLetterLocation();
+  m_triangle->GetSideB()->FindMiddleLetterLocation();
+  m_triangle->GetSideC()->FindMiddleLetterLocation();
 }
 
 TrPoints::~TrPoints()

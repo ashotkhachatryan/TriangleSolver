@@ -24,6 +24,7 @@
 
 #include "qpainter.h"
 #include "point.h"
+#include "apex.h"
 
 class Side
 {
@@ -34,16 +35,23 @@ public:
 private:
   double m_length;
   QColor* m_color;  
-  Point m_startPoint;
-  Point m_endPoint;
+  Apex* m_startApex;
+  Apex* m_endApex;
+  Point m_middleLetterLocation;
+  std::string m_middleLetter;
 public:
   double GetLength();
   void SetLength(double pLength);
   void SetColor(QColor* pColor);
   QColor* GetColor();
-  void SetStartPoint(Point pStartPoint);
-  void SetEndPoint(Point pEndPoint);
+  void SetStartApex(Apex* pStartApex);
+  void SetEndApex(Apex* pEndApex);
+  Point GetMiddleLetterLocation();
+  void FindMiddleLetterLocation();
+  void FindApexLetterLocation();
+  void SetMiddleLetter(std::string pMiddleLetter);
 public:
   void Draw(QPainter *pPainter);
   static QColor* gDefaultColor;
+private:
 };

@@ -23,6 +23,7 @@
 **********************************************************************/
 
 #include <iostream>
+#include <sstream>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "qpainter.h"
@@ -104,24 +105,52 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton1_clicked()
 {
+  Triangle* copyTriangle;
   if (ui->tabWidget->currentIndex() == 0) {
     double a = ui->lineEdit1->text().toDouble();
     double b = ui->lineEdit2->text().toDouble();
     double c = ui->lineEdit3->text().toDouble();
+    copyTriangle = new Triangle(a,b,c);
     m_triangle = new Triangle(a,b,c);
   } else {
     double a = ui->lineEdit4->text().toDouble();
     double b = ui->lineEdit5->text().toDouble();
     double angle = ui->lineEdit6->text().toDouble();
     if (ui->comboBox->currentIndex() == 0) {
+      copyTriangle = new Triangle(a,b,angle,Triangle::eANGLEA);
       m_triangle = new Triangle(a, b, angle, Triangle::eANGLEA);
     } else if (ui->comboBox->currentIndex() == 1) {
+      copyTriangle = new Triangle(a,b,angle,Triangle::eANGLEB);
       m_triangle = new Triangle(a, b, angle, Triangle::eANGLEB);
     } else if (ui->comboBox->currentIndex() == 2) {
+      copyTriangle = new Triangle(a,b,angle,Triangle::eANGLEC);
       m_triangle = new Triangle(a, b, angle, Triangle::eANGLEC);
     }
   }
   m_calc = new TrPoints(m_triangle, m_area);
+  std::stringstream ss;
+  ss << "SideA = " << copyTriangle->GetSideA()->GetLength() << 
+        "\nSideB = " << copyTriangle->GetSideB()->GetLength() << 
+        "\nSideC = " << copyTriangle->GetSideC()->GetLength();
+  ss << "\n\nArea = " << copyTriangle->GetArea();
+  ss << "\nPerimeter = " << copyTriangle->GetPerimeter();
+  ss << "\n\nAngleA = " << copyTriangle->GetAngleA() <<
+        "\nAngleB = " << copyTriangle->GetAngleB() <<
+        "\nAngleC = " << copyTriangle->GetAngleC();
+  ss << "\n\nAltitudeA = " << copyTriangle->GetAltitudeA() <<
+        "\nAltitudeB = " << copyTriangle->GetAltitudeB() <<
+        "\nAltitudeC = " << copyTriangle->GetAltitudeC();
+  ss << "\n\nMedianA = " << copyTriangle->GetMedianA() <<
+        "\nMedianB = " << copyTriangle->GetMedianB() <<
+        "\nMedianC = " << copyTriangle->GetMedianC();
+  ss << "\n\nBisectorA = " << copyTriangle->GetBisectorA() <<
+        "\nBisectorB = " << copyTriangle->GetBisectorB() <<
+        "\nBisectorC = " << copyTriangle->GetBisectorC();
+  ss << "\n\nOutScribedR = " << copyTriangle->GetOutscribedR();
+  ss << "\nInscribedR = " << copyTriangle->GetInscribedR();
+
+  std::string s = ss.str();
+  ui->textEdit->setText(QString::fromStdString(s));
 }
 
 void MainWindow::handleSelectionChanged(int index)
